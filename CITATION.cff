@@ -28,6 +28,9 @@ keywords:
   - carbon-aware computing
 license: CC-BY-4.0
 license-url: "https://creativecommons.org/licenses/by/4.0/"
+doi: "10.5281/zenodo.22892503"
+version: "v2.0.0"
+repository-code: "https://github.com/avalyset/khepri-consumption-2025"
 date-released: 2026-09-22
 references:
   - type: article
