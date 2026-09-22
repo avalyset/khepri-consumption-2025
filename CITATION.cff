@@ -5,7 +5,8 @@ type: dataset
 authors:
   - family-names: "Nicolaysen"
     given-names: "Eirik Botten"
-    orcid: "https://orcid.org/0009-0007-3536-0142"
+    orcid: "https://orcid.org/0009-0001-9188-6788"
+    affiliation: "EcoDeco AS"
 abstract: >-
   Hourly consumption-based (import-adjusted) carbon intensity for the nine Nordic
   bidding zones NO1-NO5 and SE1-SE4 for 2025, with FI, DK1 and DK2 as control zones.
