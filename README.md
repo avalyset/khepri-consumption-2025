@@ -176,6 +176,8 @@ on an openly documented factor base, with the tracing code included.
 
 ## Related work
 
+### INATECH Freiburg
+
 **INATECH Freiburg (Schäfer et al.)** work on the same method family, independently and
 in parallel. Their `co2map` ([co2map.de](https://co2map.de)) publishes generation- and
 consumption-based grid emission intensity time series for the German federal states, and
@@ -195,6 +197,75 @@ An INATECH article on import origin is in preparation. Nothing is attributed to 
 **No claim of priority is made in either direction** — this is parallel work on a shared
 method, and an independent second implementation is welcome precisely because it would
 test this one.
+
+### Green Grid Compass
+
+**Green Grid Compass** (GGC) is run by the German TSOs **50Hertz Transmission** and
+**TenneT TSO**, with **FfE München** as method developer; methodology report published
+**17 December 2024**, platform launched 18 February 2025
+([greengrid-compass.eu](https://www.greengrid-compass.eu/),
+[methodology report](https://www.ffe.de/wp-content/uploads/2025/02/GGC_Methodology-report_en.pdf)).
+It is the closest thing to a direct counterpart to this dataset.
+
+**It uses the same inputs.** The report names ENTSO-E `Actual Generation per Production
+Type [16.1.B C]` and **`Physical Flows [12.1.G]`** — A75 and A11, physical flow, as here
+— and states that the core elements are *"the consideration of electricity imports and
+exports using flow tracing and the inclusion of combined heat and power generation using
+the efficiency method"*. It covers all twelve Nordic bidding zones hourly, and publishes
+production and consumption on both an operational and a lifecycle basis.
+
+**Three method differences, as GGC states them:**
+
+1. **Scaling.** GGC scales ENTSO-E generation to Eurostat annual statistics. This dataset
+   uses ENTSO-E as reported.
+2. **CHP.** GGC allocates combined heat and power by the efficiency method (ISO 14067),
+   using the European Commission's harmonised reference efficiencies (their Annex B,
+   2024 update). This dataset takes A75 as reported, with no CHP allocation.
+3. **Factor base.** GGC's operational factors come from the IPCC 2006 Guidelines and its
+   lifecycle factors add upstream chains from **ecoinvent 3.9.1 (cut-off)**, with
+   country-specific values derived via Eurostat's SIEC classification. This dataset uses
+   **IPCC AR5 Annex III** medians throughout.
+
+**The numeric factor table is not reproducible from the report.** Its change log states
+that the emission-factor, scaling and self-consumption tables were *"removed from the
+report due to it not being up to date"*, and ecoinvent is licence-restricted. GGC's
+factors could therefore not be applied to this dataset's traced mix.
+
+#### Comparison, 2025 consumption-based lifecycle (gCO2eq/kWh)
+
+GGC annual figures read from its public ranking endpoint. The fourth column is a
+**diagnostic, not GGC's method**: this dataset's own mix with the hydro factor replaced
+by the single value that best fits the five Norwegian zones — **9.07**, against AR5's 24.
+
+| Zone | GGC | This dataset | With implied hydro 9.07 | Residual | Deviation explained |
+|---|---:|---:|---:|---:|---:|
+| NO1 | 11 | 23.13 | 10.24 | -0.76 | 94 % |
+| NO2 | 17 | 26.26 | 13.23 | -3.77 | 59 % |
+| NO3 | 14 | 24.20 | 12.21 | -1.79 | 82 % |
+| NO4 | 24 | 39.67 | 27.24 | +3.24 | 79 % |
+| NO5 | 7 | 24.39 | 9.74 | +2.74 | 84 % |
+| SE1 | 15 | 21.40 | 10.61 | -4.39 | 31 % |
+| SE2 | 16 | 20.61 | 10.05 | -5.95 | -29 % |
+| SE3 | 24 | 17.74 | 11.80 | -12.20 | -95 % |
+| SE4 | 44 | 23.52 | 18.49 | -25.51 | -25 % |
+| FI | 49 | 44.93 | 41.62 | -7.38 | -81 % |
+| DK1 | 108 | 83.14 | 79.83 | -28.17 | -13 % |
+| DK2 | 122 | 102.28 | 100.03 | -21.97 | -11 % |
+
+**What the diagnostic shows.** A hydro factor near 9 accounts for **79–94 %** of the gap
+in four of the five Norwegian zones, which is consistent with an ecoinvent-based hydro
+value well below the AR5 median this dataset uses. It explains nothing in the Swedish,
+Danish and Finnish zones. There the candidate is the categories this dataset **excludes**
+(3.6 % of SE3, 6.6 % of SE4, 8.2 % of DK2): closing those residuals would require a
+factor of roughly 220–700 gCO2eq/kWh on the excluded share, which is what assigning a
+real thermal value to `B20 Other` and `Waste` would look like. **No residual is within
+5 %.** The Eurostat scaling and the CHP allocation are equally plausible contributors and
+are **not testable** from the published report.
+
+**No claim is made about which figure is correct.** The two are built on the same
+physical data with different, openly stated conventions, and they disagree in a way that
+decomposes by zone mix. Underlying files: `validation/ggc_comparison_2025.csv`,
+`validation/ggc_implied_factor_test.csv`.
 
 ## What this does not cover
 
