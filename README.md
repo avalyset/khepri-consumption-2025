@@ -1,10 +1,12 @@
 # Khepri — consumption-based hourly carbon intensity for the Nordic bidding zones, 2025
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22892503.svg)](https://doi.org/10.5281/zenodo.22892503)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22893246.svg)](https://doi.org/10.5281/zenodo.22893246)
 
-**v2.0.0 — archived at [10.5281/zenodo.22892503](https://doi.org/10.5281/zenodo.22892503)**
+**v2.0.1 — archived at [10.5281/zenodo.22893246](https://doi.org/10.5281/zenodo.22893246)**
 (concept DOI [10.5281/zenodo.21042581](https://doi.org/10.5281/zenodo.21042581), which
-always resolves to the latest version).
+always resolves to the latest version). v2.0.1 adds Green Grid Compass as related work,
+with a comparison and a factor diagnostic; **the data are unchanged from
+[v2.0.0](https://doi.org/10.5281/zenodo.22892503)**.
 
 Hourly **consumption-based** (import-adjusted) carbon intensity for the nine Nordic
 bidding zones Khepri publishes production-based figures for — **NO1–NO5, SE1–SE4** —
