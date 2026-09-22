@@ -13,23 +13,23 @@ factor base.
 
 ## Headline figures, 2025 (gCO2eq/kWh, consumption-weighted)
 
-| Zone | Production (v1, published) | Consumption, lifecycle | Consumption, direct | Carbon-free share |
-|---|---:|---:|---:|---:|
-| NO1 | 23.31 | **23.12** | 0.51 | 97.85 % |
-| NO2 | 23.85 | **26.26** | 2.27 | 96.04 % |
-| NO3 | 21.46 | **24.20** | 2.12 | 97.96 % |
-| NO4 | 39.65 | **39.67** | 13.75 | 94.97 % |
-| NO5 | 24.46 | **24.39** | 0.48 | 97.06 % |
-| SE1 | 20.63 | **21.40** | 0.50 | 99.17 % |
-| SE2 | 20.11 | **20.61** | 0.23 | 98.89 % |
-| SE3 | 14.53 | **17.74** | 0.37 | 96.18 % |
-| SE4 | 17.42 | **23.52** | 4.54 | 92.32 % |
-| *FI (control)* | *48.20* | *44.93* | *8.08* | *85.05 %* |
-| *DK1 (control)* | *88.55* | *83.14* | *45.21* | *80.62 %* |
-| *DK2 (control)* | *157.41* | *102.28* | *52.64* | *71.45 %* |
+| Zone | Production (v1, published) | Consumption | Carbon-free share |
+|---|---:|---:|---:|
+| NO1 | 23.31 | **23.12** | 97.85 % |
+| NO2 | 23.85 | **26.26** | 96.04 % |
+| NO3 | 21.46 | **24.20** | 97.96 % |
+| NO4 | 39.65 | **39.67** | 94.97 % |
+| NO5 | 24.46 | **24.39** | 97.06 % |
+| SE1 | 20.63 | **21.40** | 99.17 % |
+| SE2 | 20.11 | **20.61** | 98.89 % |
+| SE3 | 14.53 | **17.74** | 96.18 % |
+| SE4 | 17.42 | **23.52** | 92.32 % |
+| *FI (control)* | *48.20* | *44.93* | *85.05 %* |
+| *DK1 (control)* | *88.55* | *83.14* | *80.62 %* |
+| *DK2 (control)* | *157.41* | *102.28* | *71.45 %* |
 
-**The direct column is `Proposed`, not accepted** — see *Factor sets* below. It is not
-comparable with the lifecycle column: the two have different denominators.
+A direct-emissions variant is under development (ADR-0016, still `Proposed`) and does
+**not** form part of v2.0.0.
 
 ### What imports do
 
@@ -82,12 +82,12 @@ is `NaN`, not interpolated. ENTSO-E A03 curve expansion is already applied at pa
 by `entsoe-py` 0.8.0 (`series_parsers.py:109-114`); what remains are missing periods,
 which are real holes and are logged.
 
-### Factor sets
+### Factor set
 
-| Set | Basis | Status |
-|---|---|---|
-| `lifecycle` | **Exactly Khepri v1's published table and exclusion rules** — IPCC AR5 Annex III Table A.III.2 lifecycle medians, ADR-0001 and ADR-0002. A type with no factor there is excluded from numerator *and* denominator, as in v1. | Accepted |
-| `direct` | IPCC AR5 Annex III Table A.III.2 **direct** column, ADR-0016. Biomass (`n. a.` in the source) and oil (no row) are excluded; the excluded share is reported per zone. | **Proposed** |
+**Exactly Khepri v1's published table and exclusion rules** — IPCC AR5 Annex III
+Table A.III.2 lifecycle medians, ADR-0001 and ADR-0002. A type with no factor there is
+excluded from numerator *and* denominator, as in v1, so the two layers are directly
+comparable for the same zone.
 
 Categories deliberately **excluded** from the primary figures, with the excluded share
 reported per zone in `data/annual_2025.csv`: `Waste`, `Other`, `Other renewable`,
@@ -137,12 +137,12 @@ label states. `validation/google_multiregion_2025.csv`.
 ## Contents
 
 ```
-data/hourly/<ZONE>_2025.csv   8 760 hourly rows per zone: consumption (MW), CI on both
-                              factor sets, included share, carbon-free share, and
-                              pumped storage / biomass / other-renewable shares separately
+data/hourly/<ZONE>_2025.csv   8 760 hourly rows per zone: consumption (MW), carbon
+                              intensity, included share, carbon-free share, and pumped
+                              storage / biomass / other-renewable shares separately
 data/annual_2025.csv          annual figures per zone: consumption-weighted and
                               time-averaged CI, excluded share, CFE statistics
-data/factor_sets.json         what each factor set is and its status
+data/factor_sets.json         the factor set and its status
 validation/                   v1 reproduction, cross-checks, Google multi-region test
 build.py                      rebuilds everything
 ```
@@ -161,17 +161,34 @@ accounting method for the European electricity markets*, **Energy Strategy Revie
 26:100367, [doi:10.1016/j.esr.2019.100367](https://doi.org/10.1016/j.esr.2019.100367).
 This dataset is an application of that method, not a new one.
 
-**INATECH Freiburg's `co2map`** (Mirko Schäfer and colleagues) is a **parallel,
-independent implementation** of the same method family, covering German federal states.
-It is credited here as such. An INATECH dataset for the Nordic zones was requested and
-will be used as cross-validation when it arrives; this dataset does not depend on it.
-
 Per-bidding-zone Nordic carbon intensity is not new. **Clauß et al. (2019)**,
 [doi:10.3390/en12071345](https://doi.org/10.3390/en12071345), computed hourly
 import-adjusted CO2eq intensity for six Scandinavian bidding zones including NO1–NO5,
 for 2015. **Engstam et al. (2023)** and **Papageorgiou et al. (2020)** cover the Swedish
 zones. What this adds is an archived, versioned, independently recomputable 2025 series
 on an openly documented factor base, with the tracing code included.
+
+## Related work
+
+**INATECH Freiburg (Schäfer et al.)** work on the same method family, independently and
+in parallel. Their `co2map` ([co2map.de](https://co2map.de)) publishes generation- and
+consumption-based grid emission intensity time series for the German federal states, and
+their **Open Energy Data Server** pipeline
+([INATECH-CIG/OEDS-scrips](https://github.com/INATECH-CIG/OEDS-scrips),
+`exchange_analysis`) implements aggregated coupling flow tracing.
+
+The two efforts differ in what they trace and what they produce. **Theirs builds on
+commercial flows** and documents the **origin of imports** — which zones and which
+generation types an importing zone's inflow came from. **This dataset builds on physical
+flows (ENTSO-E A11)** and computes a **consumption mix**, which requires a balancing
+convention that the aggregated method deliberately leaves open; ours is stated in
+ADR-0010 (family B). Neither result substitutes for the other: an import-origin
+attribution and a consumption mix answer different questions, and the flow basis differs.
+
+An INATECH article on import origin is in preparation. Nothing is attributed to it here.
+**No claim of priority is made in either direction** — this is parallel work on a shared
+method, and an independent second implementation is welcome precisely because it would
+test this one.
 
 ## What this does not cover
 

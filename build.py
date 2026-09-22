@@ -8,11 +8,12 @@ Method: ADR-0015 (Accepted 2026-09-22) — proportional sharing on ENTSO-E A11 p
 flows across the whole ENTSO-E region. ADR-0010 (Accepted 2026-09-22) — balancing
 family B: generation and flows as given, consumption as residual.
 
-Factor sets:
-  lifecycle  — EXACTLY Khepri v1's published set and exclusion rules (ADR-0001/0002).
-               A type with no factor in that table is excluded from both numerator and
-               denominator, as in v1.
-  direct     — ADR-0016, still Proposed. IPCC AR5 Annex III Table A.III.2 direct column.
+Factor set: EXACTLY Khepri v1's published set and exclusion rules (ADR-0001/0002).
+A type with no factor in that table is excluded from both numerator and denominator,
+as in v1.
+
+A direct-emissions variant (ADR-0016) exists but is still Proposed and is NOT part of
+v2.0.0. Its builder is kept out of the release in `utkast/build_with_direct_variant.py`.
 
 Run:  python3 build.py
 """
@@ -29,7 +30,6 @@ sys.path.insert(0, os.path.expanduser("~/khepri/src"))
 from kryssjekk_tracing import bygg_input                       # noqa: E402
 from khepri.factors import FACTORS as V1_FACTORS               # noqa: E402
 from khepri.factors import EXCLUDED_NO_VERIFIED_FACTOR as V1_EXCL  # noqa: E402
-import factors_v2 as FV                                        # noqa: E402
 
 OUT = os.path.dirname(os.path.abspath(__file__))
 PRIMARY = {"NO_1": "NO1", "NO_2": "NO2", "NO_3": "NO3", "NO_4": "NO4", "NO_5": "NO5",
@@ -50,10 +50,6 @@ SETS = {
     "lifecycle": (V1_FACTORS, set(V1_EXCL),
                   "Khepri v1 published set: IPCC AR5 Annex III Table A.III.2 lifecycle "
                   "medians, v1 exclusion rules (ADR-0001, ADR-0002). Accepted."),
-    "direct": (FV.FACTORS_B, FV.EXCLUDED_B,
-               "IPCC AR5 Annex III Table A.III.2 DIRECT column (ADR-0016). PROPOSED, "
-               "not accepted. Biomass and oil have no direct median in the source and "
-               "are excluded; the excluded share is reported per zone."),
 }
 
 
@@ -112,8 +108,9 @@ def main():
             rec[f"share_{k}_pct"] = float(100 * (mix[c] * w).sum() / w.sum()) if c in mix.columns else 0.0
         df.round(8).to_csv(f"{OUT}/data/hourly/{name}_2025.csv")
         rows.append(rec)
-        print(f"  {name:4} {rec['scope']:8} lifecycle {rec['ci_lifecycle_consumption_weighted']:7.2f} "
-              f"direct {rec['ci_direct_consumption_weighted']:6.2f} CFE {rec['cfe_consumption_weighted_pct']:5.2f} %")
+        print(f"  {name:4} {rec['scope']:8} CI {rec['ci_lifecycle_consumption_weighted']:7.2f} "
+              f"CFE {rec['cfe_consumption_weighted_pct']:5.2f} % "
+              f"excluded {rec['excluded_share_lifecycle_pct']:4.2f} %")
 
     ann = pd.DataFrame(rows)
     ann.round(4).to_csv(f"{OUT}/data/annual_2025.csv", index=False)
