@@ -1,0 +1,40 @@
+{
+ "solver_cross_check": {
+  "description": "LU factorisation vs iterative proportional sharing, in memory, same inputs",
+  "max_abs_deviation_gco2eq_per_kwh": 1.137e-12,
+  "zone_hours_compared": 438839,
+  "iterations_to_converge": 39
+ },
+ "pipeline_cross_check": {
+  "description": "independently rebuilt input vs stored primary output",
+  "max_abs_deviation_gco2eq_per_kwh": 0.0005,
+  "note": "equals the %.6g CSV write precision; no measurable difference"
+ },
+ "physical_invariant": {
+  "description": "Sum_i C_i*m_ik = Sum_i G_ik, per type and hour; neither implementation is constructed to satisfy it",
+  "max_relative_violation": 2.77e-16,
+  "sample_hours": 365
+ },
+ "mix_closure": {
+  "description": "Sum_k m_ik = 1 per zone and hour",
+  "max_deviation": 1.7e-15
+ },
+ "v1_production_reproduction": {
+  "description": "Khepri v1 published production-based CI recomputed from this extract",
+  "max_abs_deviation_gco2eq_per_kwh": 0.0046,
+  "rounding_threshold": 0.005,
+  "zones": 9,
+  "result": "PASS"
+ },
+ "residual_consumption_vs_reported_load": {
+  "description": "balancing family B residual vs ENTSO-E A65",
+  "within_pct": 4.4,
+  "exception": "DK1 +9.2 %, expected from the DK resolution break (ADR-0012)"
+ },
+ "export_clipping": {
+  "description": "exports exceeding node availability, scaled down",
+  "zone_hours": 710,
+  "mwh": 162082,
+  "share_of_zone_hours_pct": 0.159
+ }
+}

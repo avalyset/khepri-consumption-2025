@@ -1,0 +1,10 @@
+zone,production_v1_published,consumption_v2,delta,delta_pct,direction
+NO1,23.31,23.12,-0.18,-0.8,consumption lower (imports cleaner than own generation)
+NO2,23.85,26.26,2.41,10.1,consumption higher (imports dirtier than own generation)
+NO3,21.46,24.2,2.74,12.8,consumption higher (imports dirtier than own generation)
+NO4,39.65,39.67,0.02,0.0,consumption higher (imports dirtier than own generation)
+NO5,24.46,24.39,-0.07,-0.3,consumption lower (imports cleaner than own generation)
+SE1,20.63,21.4,0.77,3.7,consumption higher (imports dirtier than own generation)
+SE2,20.11,20.61,0.5,2.5,consumption higher (imports dirtier than own generation)
+SE3,14.53,17.74,3.21,22.1,consumption higher (imports dirtier than own generation)
+SE4,17.42,23.52,6.1,35.0,consumption higher (imports dirtier than own generation)

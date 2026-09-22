@@ -1,0 +1,45 @@
+cff-version: 1.2.0
+title: "Khepri — consumption-based hourly carbon intensity for the Nordic bidding zones, 2025"
+message: "Cite this dataset and read the excluded-share caveats in README.md."
+type: dataset
+authors:
+  - family-names: "Nicolaysen"
+    given-names: "Eirik Botten"
+    orcid: "https://orcid.org/0009-0007-3536-0142"
+abstract: >-
+  Hourly consumption-based (import-adjusted) carbon intensity for the nine Nordic
+  bidding zones NO1-NO5 and SE1-SE4 for 2025, with FI, DK1 and DK2 as control zones.
+  Derived by proportional-sharing flow tracing on ENTSO-E A11 physical cross-border
+  flows across the whole ENTSO-E region (51 zones, 103 borders, 8760 hours), with
+  emission factors applied to the traced mix afterwards. Two factor sets: Khepri v1's
+  published IPCC AR5 lifecycle table and exclusion rules, and a proposed direct
+  variant. Extends the production-based Khepri v1 dataset with the import-adjusted
+  layer. Includes the tracing code, the v1 reproduction check, internal cross-checks,
+  and an external validation against Google's published cloud-region figures.
+keywords:
+  - carbon intensity
+  - consumption-based accounting
+  - flow tracing
+  - bidding zone
+  - Norway
+  - Sweden
+  - ENTSO-E
+  - carbon-aware computing
+license: CC-BY-4.0
+license-url: "https://creativecommons.org/licenses/by/4.0/"
+date-released: 2026-09-22
+references:
+  - type: article
+    authors: [{family-names: "Tranberg", given-names: "Bo"}, {family-names: "Corradi", given-names: "Olivier"}, {family-names: "Lajoie", given-names: "Bruno"}, {family-names: "Gibon", given-names: "Thomas"}, {family-names: "Staffell", given-names: "Iain"}, {family-names: "Andresen", given-names: "Gorm Bruun"}]
+    title: "Real-time carbon accounting method for the European electricity markets"
+    journal: "Energy Strategy Reviews"
+    volume: 26
+    year: 2019
+    doi: "10.1016/j.esr.2019.100367"
+  - type: article
+    authors: [{family-names: "Clauß", given-names: "John"}]
+    title: "Predictive rule-based control to activate the energy flexibility of Norwegian residential buildings"
+    journal: "Energies"
+    volume: 12
+    year: 2019
+    doi: "10.3390/en12071345"
